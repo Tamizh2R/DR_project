@@ -5,6 +5,14 @@ def generate_terraform(json_file):
         data = json.load(file)
 
     terraform_content = ''
+
+    # Add provider block if specified
+    if "provider" in data:
+        terraform_content += f'provider "{data["provider"]}" {{\n'
+        terraform_content += '  region = "ap-southeast-2"\n'  # You can customize this
+        terraform_content += '}\n\n'
+
+    # Add resource block
     if "resource_type" in data:
         terraform_content += f'resource "{data["resource_type"]}" "{data["resource_name"]}" {{\n'
         for key, value in data["parameters"].items():
